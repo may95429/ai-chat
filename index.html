@@ -106,6 +106,9 @@
         // ✅ 先清空輸入框（關鍵🔥）
         input.value = "";
 
+        // ✅ 加這行（關鍵🔥）
+        const loadingId = addMsg("AI： 正在輸入中...", "bot");
+
         try {
           const res = await fetch(
             "https://wenwen95429.app.n8n.cloud/webhook/chat0424",
