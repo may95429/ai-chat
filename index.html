@@ -66,6 +66,17 @@
         border-radius: 8px;
         cursor: pointer;
       }
+
+      .user {
+        text-align: right;
+        color: #333;
+        font-weight: bold;
+      }
+
+      .bot {
+        text-align: left;
+        color: #4caf50;
+      }
     </style>
   </head>
 
@@ -84,31 +95,43 @@
     <script>
       async function send() {
         const input = document.getElementById("text");
-        const text = input.value;
+        const text = input.value.trim();
 
-        addMsg(text, "user");
+        // 防呆：空白不送
+        if (!text) return;
 
-        const res = await fetch("你的 n8n webhook URL", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ question: text }),
-        });
+        // ✅ 顯示「您」
+        addMsg("您： " + text, "user");
 
-        const data = await res.json();
-        addMsg(data.answer || "沒有回應", "bot");
-
+        // ✅ 先清空輸入框（關鍵🔥）
         input.value = "";
+
+        try {
+          const res = await fetch("你的 n8n webhook URL", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ question: text }),
+          });
+
+          const data = await res.json();
+
+          // ✅ 顯示 AI 回答
+          addMsg("AI： " + (data.answer || "沒有回應"), "bot");
+        } catch (err) {
+          addMsg("AI： 發生錯誤，請稍後再試", "bot");
+        }
       }
 
       function addMsg(text, type) {
         const div = document.createElement("div");
         div.className = "msg " + type;
         div.innerText = text;
+
         document.getElementById("chat").appendChild(div);
 
-        /* 自動滾到底 */
+        // 自動滾到底
         const chat = document.getElementById("chat");
         chat.scrollTop = chat.scrollHeight;
       }
