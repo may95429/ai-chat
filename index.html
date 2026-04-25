@@ -107,13 +107,16 @@
         input.value = "";
 
         try {
-          const res = await fetch("你的 n8n webhook URL", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
+          const res = await fetch(
+            "https://wenwen95429.app.n8n.cloud/webhook/chat0424",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ question: text }),
             },
-            body: JSON.stringify({ question: text }),
-          });
+          );
 
           const data = await res.json();
 
