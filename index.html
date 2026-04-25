@@ -3,46 +3,82 @@
   <head>
     <meta charset="UTF-8" />
     <title>AI 客服</title>
+
     <style>
       body {
-        font-family: Arial;
         margin: 0;
+        font-family: Arial;
+
+        /* ✅ 修正透明問題 */
+        background: #f5f7fb;
       }
+
+      /* 外層容器 */
+      #container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      /* 聊天區 */
       #chat {
-        height: 90vh;
+        flex: 1;
         overflow-y: auto;
         padding: 10px;
       }
+
+      /* 訊息 */
       .msg {
-        margin: 5px 0;
+        margin: 8px 0;
       }
+
       .user {
         text-align: right;
-        color: blue;
+        color: #333;
       }
+
       .bot {
         text-align: left;
-        color: green;
+        color: #4caf50;
       }
-      #input {
+
+      /* ✅ 輸入區固定底部 */
+      #inputArea {
         display: flex;
-        border-top: 1px solid #ccc;
+        border-top: 1px solid #ddd;
+        background: white;
+        padding: 10px;
       }
-      input {
+
+      #text {
         flex: 1;
         padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
       }
+
       button {
-        padding: 10px;
+        margin-left: 10px;
+        padding: 10px 15px;
+        border: none;
+        background: #6c63ff;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
       }
     </style>
   </head>
-  <body>
-    <div id="chat"></div>
 
-    <div id="input">
-      <input id="text" placeholder="輸入訊息..." />
-      <button onclick="send()">送出</button>
+  <body>
+    <div id="container">
+      <!-- 聊天內容 -->
+      <div id="chat"></div>
+
+      <!-- 輸入區 -->
+      <div id="inputArea">
+        <input id="text" placeholder="輸入訊息..." />
+        <button onclick="send()">送出</button>
+      </div>
     </div>
 
     <script>
@@ -71,6 +107,10 @@
         div.className = "msg " + type;
         div.innerText = text;
         document.getElementById("chat").appendChild(div);
+
+        /* 自動滾到底 */
+        const chat = document.getElementById("chat");
+        chat.scrollTop = chat.scrollHeight;
       }
     </script>
   </body>
